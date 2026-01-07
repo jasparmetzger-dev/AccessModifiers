@@ -1,5 +1,7 @@
 package auth.model;
 
+import auth.repository.UserRepository;
+
 public class Admin extends User {
 
     public Admin(String username, String password) {
@@ -23,7 +25,7 @@ public class Admin extends User {
     public void deleteUser(User user) {
         if (user instanceof Admin) throw new SecurityException("CANT DELETE ADMINS!");
         if (user.hasPermission(this.permissionLevel)) {
-            UserRepository.remove(user);
+            UserRepository.removeUser(user);
         }
     }
 
