@@ -13,12 +13,18 @@ public abstract class User {
         this.encodedPassword = encodePassword(password);
     }
 
+    protected void setPassword(String password) {
+        this.encodedPassword = encodePassword(password);
+    }
+
     public final boolean login(String password) {
         return encodedPassword.equals(encodePassword(password));
     }
-    protected boolean hasPermission(int accessLevel) {
-        return accessLevel >= permissionLevel;
+
+    protected boolean hasPermission(int accessLevel) { //maybe change
+        return accessLevel > permissionLevel;
     }
+    protected abstract int defaultPermissionLevel();
 
     public boolean changePassword(String oldPassword, String newPassword) {
         if (!oldPassword.equals(decodePassword(encodedPassword))) return false;
@@ -32,4 +38,5 @@ public abstract class User {
         byte[] decodePassword = Base64.getDecoder().decode(encodedPassword);
         return new String(decodePassword, StandardCharsets.UTF_8);
     }
+
 }
