@@ -11,22 +11,19 @@ public class Admin extends User {
 
     @Override
     protected int defaultPermissionLevel() {
-        return 3;
+        return 10;
     }
 
     public void resetPassword(User user, String newPassword) {
         if (user instanceof Admin) throw new SecurityException("CANT CHANGE PASSWORDS ON ADMINS!");
-        if(user.hasPermission(this.permissionLevel)) {
-            setPassword(newPassword);
-        }
-        else throw new SecurityException("SECURITY EXCEPTION!");
+        if(!assertPermission(10)) throw new SecurityException("SECURITY EXCEPTION!");
+        else setPassword(newPassword);
     }
 
     public void deleteUser(User user) {
         if (user instanceof Admin) throw new SecurityException("CANT DELETE ADMINS!");
-        if (user.hasPermission(this.permissionLevel)) {
-            UserRepository.removeUser(user);
-        }
+        if (!assertPermission(10)) throw new SecurityException("SECURITY EXCEPTION!");
+        else UserRepository.removeUser(user);
     }
 
 

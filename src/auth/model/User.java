@@ -12,6 +12,9 @@ public abstract class User {
         this.username = username;
         this.encodedPassword = encodePassword(password);
     }
+    public String getUsername() {
+        return username;
+    }
 
     protected void setPassword(String password) {
         this.encodedPassword = encodePassword(password);
@@ -21,8 +24,8 @@ public abstract class User {
         return encodedPassword.equals(encodePassword(password));
     }
 
-    protected boolean hasPermission(int accessLevel) { //maybe change
-        return accessLevel > permissionLevel;
+    protected boolean assertPermission(int requiredLevel) { //maybe change
+        return requiredLevel >= permissionLevel;
     }
     protected abstract int defaultPermissionLevel();
 
